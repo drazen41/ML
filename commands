@@ -31,4 +31,8 @@ SML Mode
     C-c C-s Enter: Ulazak u SML mode (za sml file)
     C-d: IZlaz
     C-x h Del: Èisti buffer
+
+Sintaksa
+    -5 se pi¹e kao ~5 (shift lijevo od 1)
+    dijeljenje div keyword (5 div 3)
     
