@@ -1,0 +1,2 @@
+use "foo.sml";
+val n = 1;
