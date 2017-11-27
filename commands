@@ -31,6 +31,7 @@ SML Mode
     C-c C-s Enter: Ulazak u SML mode (za sml file)
     C-d: IZlaz
     C-x h Del: Èisti buffer
+    C-c C-c: Prekid programa (infinite loop)
 
 Sintaksa
     -5 se pi¹e kao ~5 (shift lijevo od 1)
