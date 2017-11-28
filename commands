@@ -35,5 +35,6 @@ SML Mode
 
 Sintaksa
     -5 se pi¹e kao ~5 (shift lijevo od 1)
-    dijeljenje div keyword (5 div 3)
+    dijeljenje: div keyword (5 div 3)
+    ^: AltGr-3-Space
     
