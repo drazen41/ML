@@ -64,18 +64,15 @@ fun  get_substitutions2(yss,x)=
       end
 fun similar_names(yss,r)=
   let val {first=a,last=b,middle=c}=r
-      
       fun f(subs,acc) =
 	case subs of
 	    []=>r::acc 
 	   |s::subs' => let val r1= {first=s, middle=c,last=b}
 			in
 			    f(subs',r1::acc)
-	   end 
+			end
   in
-     f(get_substitutions2(yss,a),[])  
-				    
-				   
+     f(get_substitutions2(yss,a),[])  			   
   end
 
     (* you may assume that Num is always used with values 2, 3, ..., 10
@@ -90,3 +87,9 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* put your solutions for problem 2 here *)
+fun card_color card =
+  case card of
+      (Hearts,_) => Red
+   | (Clubs,_) => Black 
+   | (Diamonds,_) => Red 
+   | (Spades,_) => Black   
