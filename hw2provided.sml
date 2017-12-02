@@ -98,3 +98,24 @@ fun card_value card =
       (_, Ace) => 11 
    | (_, Num i) => i 
    | (_,_) => 10  
+fun remove_card (cards,card,e)=
+  let
+      fun f (cards,acc,inList)=
+	case cards of
+	    []  => if inList
+		  then acc
+		  else raise e
+	  | c:: cards' => if c=card
+			  then f (cards',acc,true)
+			  else f (cards',c::acc,inList) 
+	 
+					  
+  in
+      f (cards,[],false)
+  end
+fun all_same_color cards =
+  case cards of
+      [] => true 
+    | c::[] => true 
+    | head::(neck::rest) => if card_color(head)=card_color(neck) then all_same_color(neck::rest) else false 
+		   
