@@ -93,3 +93,8 @@ fun card_color card =
    | (Clubs,_) => Black 
    | (Diamonds,_) => Red 
    | (Spades,_) => Black   
+fun card_value card =
+  case card of
+      (_, Ace) => 11 
+   | (_, Num i) => i 
+   | (_,_) => 10  
