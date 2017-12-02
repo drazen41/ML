@@ -9,7 +9,7 @@ fun same_string(s1 : string, s2 : string) =
 (* put your solutions for problem 1 here *)
 fun all_except_option (x,ys)=
   case ys of
-      [] => SOME ys 
+      [] => NONE 
     | y::ys' =>
       let
 	  val ok = false
@@ -106,7 +106,7 @@ fun remove_card (cards,card,e)=
 		  then acc
 		  else raise e
 	  | c:: cards' => if c=card
-			  then f (cards',acc,true)
+			  then f ([],acc,true)
 			  else f (cards',c::acc,inList) 
 	 
 					  
@@ -118,4 +118,50 @@ fun all_same_color cards =
       [] => true 
     | c::[] => true 
     | head::(neck::rest) => if card_color(head)=card_color(neck) then all_same_color(neck::rest) else false 
-		   
+fun sum_cards cards =
+  let
+      fun f (cards,acc)=
+	case cards of
+	    []=>acc 
+	     | c::cards' => f(cards',card_value(c)+acc) 
+		    
+  in
+      f(cards,0)
+  end
+fun score (cards,goal)=
+  let
+      val sameColor = all_same_color(cards)
+      val sumCards = sum_cards(cards)
+      val preliminary = if sumCards > goal then 3*(sumCards-goal) else goal-sumCards 
+      
+			      
+  in
+      if sameColor
+      then preliminary div 2
+      else preliminary
+  end
+fun officiate (cards,moves,goal)=
+  let
+      val held_cards = []
+      fun f (moves,cards,sum)=
+	case moves of
+	    [] => sum 
+	  | m::moves' =>
+	    case m of
+		Discard d => 5 
+	      | Draw =>
+		let
+		   val score = score(cards,goal)		   
+	        in
+		    case cards of
+			[] => sum 
+		      | c::cards' => if score>goal
+				     then sum
+				     else f(moves',cards',sum+score) 
+		end
+	
+  in
+     f(moves,cards,0)
+  end
+ 
+   
