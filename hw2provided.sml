@@ -105,9 +105,12 @@ fun remove_card (cards,card,e)=
 	    []  => if inList
 		  then acc
 		  else raise e
-	  | c:: cards' => if c=card
-			  then f ([],acc,true)
-			  else f (cards',c::acc,inList) 
+	  | c:: cards' => if c=card andalso inList
+			  then f(cards',c::acc,true)
+			  else
+			      if c=card
+			      then f(cards',acc,true)
+			      else f(cards',c::acc,inList)
 	 
 					  
   in
@@ -142,26 +145,58 @@ fun score (cards,goal)=
   end
 fun officiate (cards,moves,goal)=
   let
-      val held_cards = []
-      fun f (moves,cards,sum)=
+      (*val held_cards = [] *)
+      fun f (moves,cards,sum,held_cards)=
 	case moves of
-	    [] => sum 
+	    [] => sum
 	  | m::moves' =>
 	    case m of
-		Discard d => 5 
-	      | Draw =>
-		let
-		   val score = score(cards,goal)		   
-	        in
-		    case cards of
+		Discard d => f(moves',cards,sum,remove_card(held_cards,d,IllegalMove))
+	      | Draw => case cards of
 			[] => sum 
-		      | c::cards' => if score>goal
-				     then sum
-				     else f(moves',cards',sum+score) 
-		end
-	
+			 | c::cards' =>
+			   let val helds = c::held_cards
+			   in
+			       	if (sum_cards(helds)>goal)
+				then score(helds,goal)
+				else f(moves',cards',sum+score(helds,goal),helds)
+			   end	
   in
-     f(moves,cards,0)
+     f(moves,cards,0,[])
   end
- 
+      (*
+fun score_challange (cards,goal)=
+  let
+      fun aces (cs,sum)=
+	case cs of
+	    []=>sum 
+	  | c::cards' => case c of
+			     (_,Ace)=>aces(cards',sum+1) 
+			   | (_,_) => aces(cards',sum)
+      val old_score = score(cards,goal)
+      val naces = aces(cards,0) 		      
+      fun new_score i =
+	let
+	   		      
+	    val sumCards = sum_cards(cards)-i*10
+	    val sameColor = all_same_color(cards)
+					  let
+					      
+					  in
+					  end
+	    val preliminary =
+		if sumCards > goal 
+		then 3*(sumCards-goal)
+		else goal-sumCards		   				 
+	in
+	    if sameColor then preliminary div 2 else preliminary
+	end
+      
+			   
+  in
+      if old_score > goal andalso naces > 0
+      then new_score 1
+      else old_score
+  end
    
+*)
