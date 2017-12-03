@@ -148,12 +148,12 @@ fun officiate (cards,moves,goal)=
       (*val held_cards = [] *)
       fun f (moves,cards,sum,held_cards)=
 	case moves of
-	    [] => sum
+	    [] => goal
 	  | m::moves' =>
 	    case m of
 		Discard d => f(moves',cards,sum,remove_card(held_cards,d,IllegalMove))
 	      | Draw => case cards of
-			[] => sum 
+			[] => score(helds,goal)
 			 | c::cards' =>
 			   let val helds = c::held_cards
 			   in
