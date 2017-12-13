@@ -38,4 +38,4 @@ fun f4again (xs,s) =
     in
 	f5(fn y => String.size y < i, xs)
     end
-
+fun f6 xs =List.foldl((fn(x,y) => x+y)) 0 xs
