@@ -127,11 +127,12 @@ fun match (v,p) =
     | (Tuple vs,TupleP ps) => if List.length(vs) = List.length(ps)
 			      then all_answers (fn (x,y)=>match(x,y))(ListPair.zip(vs,ps))
 			      else NONE
-    | (Variable s,_) => SOME[(s,v)]
-    | (Constructor(s1,cv),ConstructorP(s2,cpv)) => if cv=cpv then match(cv,cpv) else NONE 
+    | (_,Variable s) => SOME[(s,v)]
+    | (Constructor(s1,cv),ConstructorP(s2,cpv)) => if s1=s2 then match(cv,cpv) else NONE 
     | _ => NONE 
 				   
 fun first_match v ps =
-  NONE
+  (SOME(first_answer(fn x => match(v,x)) ps)) handle NoAnswer=>NONE
 		
 			     
+
